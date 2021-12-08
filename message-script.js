@@ -4,7 +4,7 @@ let clickedElementsArray=["a","b","c","d","e","f"];
 ////////////////////////////////////////////////////////////////////
 chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){
 
-
+    console.log("Message Received");
 
     
 if (state==true){
@@ -29,7 +29,7 @@ else if(state==false){
 function clickListener(e) {
     var clickedElement = (window.event) ? window.event.srcElement :  e.target,
         tags = document.getElementsByTagName(clickedElement.tagName);
-        console.log(tags);
+        console.log(clickedElement.tagName);
         clickedElementsArray.push( JSON.stringify(tags));
     for (var i = 0; i < tags.length; ++i) {
         if (tags[i] == clickedElement) {
