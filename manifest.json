@@ -1,0 +1,26 @@
+{"name": "Clicked Element Position",
+	"version": "1.0",
+	"description": "This extension tracks and addes all clicked elements positons on a website to an array and exports it to a file when closed.",
+	"permissions": ["tabs","activeTab","declarativeContent","storage","tabs","clipboardWrite"],
+	"manifest_version": 2,
+	"browser_action": {
+		"default_icon": "icon.png"
+		
+	},
+	
+	"background":{
+		"persistent":true,
+		"scripts": ["background.js"]
+		
+	},
+	
+	"content_scripts": [
+		{
+		  "js": ["jquery-3.5.1.js","FileSaver.js","message-script.js"],
+		  "matches": ["<all_urls>"],
+		  "match_about_blank": true,
+		  "all_frames": false,
+		  "run_at": "document_idle"
+		}
+	  ]
+}
