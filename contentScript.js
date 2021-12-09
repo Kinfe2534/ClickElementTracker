@@ -42,31 +42,46 @@ else if(state==false){
 function clickListener2(e) {
     var clickedElement = (window.event) ? window.event.srcElement :  e.target,
         tags = document.getElementsByTagName(clickedElement.tagName);
-        if(clickedElement.id){
-            console.log("driver.find_element_by_id("+clickedElement.id+").click()");
-            clickedElementsArray.push("driver.find_element_by_id("+clickedElement.id+").click()")
+        console.log(clickedElement)
+        
+        if(clickedElement.hasAttribute("id")){
+            console.log("driver.find_element_by_id("+clickedElement.getAttribute("id")+").click()");
+            clickedElementsArray.push(`
+            driver.find_element_by_id("${clickedElement.getAttribute("id")}").click()
+            `);
             
         }
-        else if(clickedElement.name){
-            console.log("driver.find_element_by_id("+clickedElement.name+").click()");
-            clickedElementsArray.push("driver.find_element_by_id("+clickedElement.name+").click()")
+        else if(clickedElement.hasAttribute("name")){
+            console.log("driver.find_element_by_name("+clickedElement.getAttribute("name")+").click()");
+            clickedElementsArray.push(`
+            driver.find_element_by_name("${clickedElement.getAttribute("name")}").click()
+            `);
+
+        }
+        else if(clickedElement.hasAttribute("href")){
+            console.log("driver.find_element_by_link_text("+clickedElement.getAttribute("href")+").click()");
+            clickedElementsArray.push(`
+            driver.find_element_by_link_text("${clickedElement.getAttribute("href")}").click()
+            `);
+
+        }        
+        else if(clickedElement.hasAttribute("name")){
+            console.log("driver.find_element_by_name("+clickedElement.getAttribute("name")+").click()");
+            clickedElementsArray.push(`
+            driver.find_element_by_name("${clickedElement.getAttribute("name")}").click()
+            `);
 
         }
         else if(clickedElement.linktext){
-            console.log("driver.find_element_by_id("+clickedElement.linktext+").click()");
-            clickedElementsArray.push("driver.find_element_by_id("+clickedElement.linktext+").click()")
+            console.log("driver.find_element_by_linktext("+clickedElement.linktext+").click()");
+            clickedElementsArray.push("driver.find_element_by_linktext("+clickedElement.linktext+").click()");
 
         }
         else if(clickedElement.partiallinktext){
-            console.log("driver.find_element_by_id("+clickedElement.partiallinktext+").click()");
-            clickedElementsArray.push("driver.find_element_by_id("+clickedElement.partiallinktext+").click()")
+            console.log("driver.find_element_by_partiallinktext("+clickedElement.partiallinktext+").click()");
+            clickedElementsArray.push("driver.find_element_by_partiallinktext("+clickedElement.partiallinktext+").click()")
 
-        }else{console.log("driver.find_element_by_id("+"ID_CLASS_SOME_OTHER_ATTRIBUTE"+").click()")}
-        console.log(clickedElement.tagName);
-        clickedElementsArray.push(
-`
-"driver.find_element_by_id("+"ID_CLASS_SOME_OTHER_ATTRIBUTE"+").click()"`
-        );
+        }else{console.log("driver.find_element_by_unknown("+"ID_CLASS_SOME_OTHER_ATTRIBUTE"+").click()")}
     
 ////////////////////////////////////
 //here add logic to add the click array items to clicked elements store
