@@ -10,13 +10,13 @@
 	
 	"background":{
 		"persistent":true,
-		"scripts": ["background.js"]
+		"scripts": ["backgroundScript.js"]
 		
 	},
 	
 	"content_scripts": [
 		{
-		  "js": ["jquery-3.5.1.js","FileSaver.js","message-script.js"],
+		  "js": ["FileSaver.js","contentScript.js"],
 		  "matches": ["<all_urls>"],
 		  "match_about_blank": true,
 		  "all_frames": false,

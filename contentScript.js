@@ -10,7 +10,7 @@ chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){
 if (state==true){
     console.log("Tracking Started");
     console.log (state);
-    document.addEventListener("click", clickListener);
+    document.addEventListener("click", clickListener2);
     state=false;
    
 
@@ -18,13 +18,23 @@ if (state==true){
 else if(state==false){
     console.log("Tracking Stopped");
     console.log(state);
-    document.removeEventListener("click",clickListener);
+    document.removeEventListener("click",clickListener2);
     exportArray(clickedElementsArray);
     state=true;
 
 }    
 });
+//////////////////////////////////////////////////////////
+function clickListener2(e) {
+    var clickedElement = (window.event) ? window.event.srcElement :  e.target,
+        tags = document.getElementsByTagName(clickedElement.tagName);
+        console.log(clickedElement.tagName);
+        clickedElementsArray.push( JSON.stringify(tags));
+    
+////////////////////////////////////
+//here add logic to add the click array items to clicked elements store
 
+}
 //////////////////////////////////////////////////////////
 function clickListener(e) {
     var clickedElement = (window.event) ? window.event.srcElement :  e.target,
