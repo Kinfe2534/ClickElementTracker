@@ -1,6 +1,20 @@
 ///////////////////////////////////////////////////////////////////////////////
 let state=true;
-let clickedElementsArray=["a","b","c","d","e","f"];
+let clickedElementsArray=[
+`from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
+path="C:\Program Files (x86)\chromedriver\chromedriver.exe"
+driver= webdriver.Chrome(path)
+driver.get("https://www.google.com")
+print(driver.title)
+time.sleep(5)
+search= driver.find_element_by_tag_name("input")
+print(search)
+search.send_keys("Life Quotes Images")
+search.send_keys(Keys.RETURN)
+#driver.close() `
+];
 ////////////////////////////////////////////////////////////////////
 chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){
 
@@ -28,8 +42,31 @@ else if(state==false){
 function clickListener2(e) {
     var clickedElement = (window.event) ? window.event.srcElement :  e.target,
         tags = document.getElementsByTagName(clickedElement.tagName);
+        if(clickedElement.id){
+            console.log("driver.find_element_by_id("+clickedElement.id+").click()");
+            clickedElementsArray.push("driver.find_element_by_id("+clickedElement.id+").click()")
+            
+        }
+        else if(clickedElement.name){
+            console.log("driver.find_element_by_id("+clickedElement.name+").click()");
+            clickedElementsArray.push("driver.find_element_by_id("+clickedElement.name+").click()")
+
+        }
+        else if(clickedElement.linktext){
+            console.log("driver.find_element_by_id("+clickedElement.linktext+").click()");
+            clickedElementsArray.push("driver.find_element_by_id("+clickedElement.linktext+").click()")
+
+        }
+        else if(clickedElement.partiallinktext){
+            console.log("driver.find_element_by_id("+clickedElement.partiallinktext+").click()");
+            clickedElementsArray.push("driver.find_element_by_id("+clickedElement.partiallinktext+").click()")
+
+        }else{console.log("driver.find_element_by_id("+"ID_CLASS_SOME_OTHER_ATTRIBUTE"+").click()")}
         console.log(clickedElement.tagName);
-        clickedElementsArray.push( JSON.stringify(tags));
+        clickedElementsArray.push(
+`
+"driver.find_element_by_id("+"ID_CLASS_SOME_OTHER_ATTRIBUTE"+").click()"`
+        );
     
 ////////////////////////////////////
 //here add logic to add the click array items to clicked elements store
@@ -57,6 +94,6 @@ function clickListener(e) {
 function exportArray(arrayToBeExported){
     console.log(arrayToBeExported);
     var blob= new Blob(arrayToBeExported,  {type: "text/plain;charset=utf-8"});
-    saveAs(blob,"arrayToText.txt");
+    saveAs(blob,"ClickedElementTrackerOutput.txt");
     ////export array to file logic
 }
