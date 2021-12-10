@@ -24,7 +24,8 @@ chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){
 if (state==true){
     console.log("Tracking Started");
     console.log (state);
-    document.addEventListener("click", clickListener2);
+    document.addEventListener("click", clickListener);
+    document.addEventListener("keypress", keypressListener);
     state=false;
    
 
@@ -32,63 +33,90 @@ if (state==true){
 else if(state==false){
     console.log("Tracking Stopped");
     console.log(state);
-    document.removeEventListener("click",clickListener2);
+    document.removeEventListener("click",clickListener);
+    document.addEventListener("keypress", keypressListener);
     exportArray(clickedElementsArray);
     state=true;
 
 }    
 });
 //////////////////////////////////////////////////////////
-function clickListener2(e) {
-    var clickedElement = (window.event) ? window.event.srcElement :  e.target,
+function clickListener(e) {
+    var clickedElement = (window.event) ? window.event.srcElement :  e.target;
         tags = document.getElementsByTagName(clickedElement.tagName);
         console.log(clickedElement)
-        
+        // 1. track element by ID
         if(clickedElement.hasAttribute("id")){
             console.log("driver.find_element_by_id("+clickedElement.getAttribute("id")+").click()");
             clickedElementsArray.push(`
             driver.find_element_by_id("${clickedElement.getAttribute("id")}").click()
-            `);
-            
+            `);            
         }
+        // 2. track element by NAME ATTRIBUTE
         else if(clickedElement.hasAttribute("name")){
             console.log("driver.find_element_by_name("+clickedElement.getAttribute("name")+").click()");
+            document.querySelectorAll('clickedElement.tagName[name =clickedElement.getAttribute("name")]');
             clickedElementsArray.push(`
             driver.find_element_by_name("${clickedElement.getAttribute("name")}").click()
             `);
-
         }
+        // 3. track element by LINK TEXT
         else if(clickedElement.hasAttribute("href")){
             console.log("driver.find_element_by_link_text("+clickedElement.getAttribute("href")+").click()");
             clickedElementsArray.push(`
             driver.find_element_by_link_text("${clickedElement.getAttribute("href")}").click()
             `);
 
-        }        
+        }
+        // 4. track element by PARTIAL LINK TEXT        
+        else if(clickedElement.hasAttribute("partiallinktext")){
+            console.log("driver.find_element_by_partial_link_text("+clickedElement.getAttribute("partiallinktext")+").click()");
+            clickedElementsArray.push(`
+            driver.find_element_by_partial_link_text("${clickedElement.getAttribute("partiallinktext")}").click()
+            `);
+
+        }
+        // 5. track element by TAG NAME
         else if(clickedElement.hasAttribute("name")){
             console.log("driver.find_element_by_name("+clickedElement.getAttribute("name")+").click()");
             clickedElementsArray.push(`
             driver.find_element_by_name("${clickedElement.getAttribute("name")}").click()
             `);
-
         }
-        else if(clickedElement.linktext){
-            console.log("driver.find_element_by_linktext("+clickedElement.linktext+").click()");
-            clickedElementsArray.push("driver.find_element_by_linktext("+clickedElement.linktext+").click()");
-
+        // 6. track element by CLASS NAME
+        else if(clickedElement.hasAttribute("name")){
+            console.log("driver.find_element_by_name("+clickedElement.getAttribute("name")+").click()");
+            clickedElementsArray.push(`
+            driver.find_element_by_name("${clickedElement.getAttribute("name")}").click()
+            `);
+        }      
+        // 7. track element by XPATH
+        else if(clickedElement.hasAttribute("name")){
+            console.log("driver.find_element_by_name("+clickedElement.getAttribute("name")+").click()");
+            clickedElementsArray.push(`
+            driver.find_element_by_name("${clickedElement.getAttribute("name")}").click()
+            `);
         }
-        else if(clickedElement.partiallinktext){
-            console.log("driver.find_element_by_partiallinktext("+clickedElement.partiallinktext+").click()");
-            clickedElementsArray.push("driver.find_element_by_partiallinktext("+clickedElement.partiallinktext+").click()")
-
-        }else{console.log("driver.find_element_by_unknown("+"ID_CLASS_SOME_OTHER_ATTRIBUTE"+").click()")}
+        // FINALLY IF ELEMENT CAN NOT BE UNIQUELY TRACKED
+        else{console.log("driver.find_element_by_unknown("+"ID_CLASS_SOME_OTHER_ATTRIBUTE"+").click()")}
     
 ////////////////////////////////////
 //here add logic to add the click array items to clicked elements store
 
 }
+function keypressListener(e){
+    var pressedKey = (window.event) ? window.event.srcElement :  e.target;
+    console.log(e.keyCode);
+    console.log(e.which);
+    console.log(e.key);
+    if(e.key="ENTER"){clickedElementsArray.push(`
+    driver.find_element_by_id("${clickedElement.getAttribute("id")}").click()
+    `);}
+    else{}
+
+}
 //////////////////////////////////////////////////////////
-function clickListener(e) {
+function clickListener_example_code(e) {
     var clickedElement = (window.event) ? window.event.srcElement :  e.target,
         tags = document.getElementsByTagName(clickedElement.tagName);
         console.log(clickedElement.tagName);
