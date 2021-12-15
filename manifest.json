@@ -16,7 +16,7 @@
 	
 	"content_scripts": [
 		{
-		  "js": ["file_saver.js","content_script.js"],
+		  "js": ["jquery-3.5.1.js","file_saver.js","content_script.js"],
 		  "matches": ["<all_urls>"],
 		  "match_about_blank": true,
 		  "all_frames": false,

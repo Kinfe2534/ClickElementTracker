@@ -53,6 +53,7 @@ function clickListener(e) {
             console.log(clickedElement)
             // update the clicked elements array
             clickedElementsArray.push(`
+            #found by ID
             driver.find_element_by_id("${clickedElement.getAttribute("id")}").click()
             `);            
         }
@@ -62,22 +63,53 @@ function clickListener(e) {
             console.log("Clicked Element Has ----- NAME--(2nd criterion)----- attribute");
             // log the clicked element
             console.log(clickedElement)
-            document.querySelectorAll('clickedElement.tagName[name =clickedElement.getAttribute("name")]');
+            // get all elements with name attribute and this name value
+            var name_tags=document.querySelectorAll(`${clickedElement.tagName}[name =${clickedElement.getAttribute("name")}]`);
+            console.log(name_tags);
+            console.log(name_tags.length);
+            // iterate to get the index of the specific elements
+            for(let i=0;i<name_tags.length;i++){
+                if(name_tags[i]==clickedElement){
+                    console.log(`the index of clicked element is ${i}`);
+
+                    // update the clicked element array with 
             clickedElementsArray.push(`
-            driver.find_element_by_name("${clickedElement.getAttribute("name")}").click()
+            #found by NAME
+            list=driver.find_elements_by_css_selector("css=${clickedElement.tagName}[name =${clickedElement.getAttribute("name")}]")
+            list[${i}].click()
             `);
+
+                }
+            }
+            
         }
         // 3. track element by LINK TEXT
-        else if(clickedElement.hasAttribute("href")){
+        else  if(clickedElement.hasAttribute("href")){
+            // log the criterion
             console.log("Clicked Element Has ----- href--(3rd criterion)----- attribute");
-            console.log(clickedElement)
-            clickedElementsArray.push(`
+            // log the clicked element
+            console.log(clickedElement);
+            // find the clicked element by inner html
+            var href_inner_html=clickedElement.innerHTML;
+            console.log(href_inner_html);
+            // get all elements with inner html similar to the above.. not possible with css selector but with jquery
+            var href_list=$(`a:contains("${href_inner_html}")`);
+            console.log(href_list.length);
+            // update the clicked elemets array
+           break_me: if(href_list.length!=1){
+                // if there are more than 1 anchor elements with the same inner Html , stop and continue to the next condition
+                console.log("Clicked element can not be uniquely identified by link text");
+                continue;
+           
+            }
+            else{ clickedElementsArray.push(`
+            #found by LINK TEXT
             driver.find_element_by_link_text("${clickedElement.getAttribute("href")}").click()
-            `);
+            `);}
 
         }
         // 4. track element by PARTIAL LINK TEXT        
-        else if(clickedElement.hasAttribute("partiallinktext")){
+        else  if(clickedElement.hasAttribute("partiallinktext")){
             console.log("Clicked Element Has ----- partial text--(4th criterion)----- attribute");
             console.log(clickedElement)
             clickedElementsArray.push(`
