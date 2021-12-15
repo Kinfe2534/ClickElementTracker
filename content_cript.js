@@ -44,17 +44,24 @@ else if(state==false){
 function clickListener(e) {
     var clickedElement = (window.event) ? window.event.srcElement :  e.target;
         tags = document.getElementsByTagName(clickedElement.tagName);
-        console.log(clickedElement)
+       
         // 1. track element by ID
         if(clickedElement.hasAttribute("id")){
-            console.log("driver.find_element_by_id("+clickedElement.getAttribute("id")+").click()");
+            // log the criterion
+            console.log("Clicked Element Has ----- ID--(1st criterion)----- attribute");
+            // log the clicked element
+            console.log(clickedElement)
+            // update the clicked elements array
             clickedElementsArray.push(`
             driver.find_element_by_id("${clickedElement.getAttribute("id")}").click()
             `);            
         }
         // 2. track element by NAME ATTRIBUTE
         else if(clickedElement.hasAttribute("name")){
-            console.log("driver.find_element_by_name("+clickedElement.getAttribute("name")+").click()");
+            // log the criterion
+            console.log("Clicked Element Has ----- NAME--(2nd criterion)----- attribute");
+            // log the clicked element
+            console.log(clickedElement)
             document.querySelectorAll('clickedElement.tagName[name =clickedElement.getAttribute("name")]');
             clickedElementsArray.push(`
             driver.find_element_by_name("${clickedElement.getAttribute("name")}").click()
@@ -62,7 +69,8 @@ function clickListener(e) {
         }
         // 3. track element by LINK TEXT
         else if(clickedElement.hasAttribute("href")){
-            console.log("driver.find_element_by_link_text("+clickedElement.getAttribute("href")+").click()");
+            console.log("Clicked Element Has ----- href--(3rd criterion)----- attribute");
+            console.log(clickedElement)
             clickedElementsArray.push(`
             driver.find_element_by_link_text("${clickedElement.getAttribute("href")}").click()
             `);
@@ -70,7 +78,8 @@ function clickListener(e) {
         }
         // 4. track element by PARTIAL LINK TEXT        
         else if(clickedElement.hasAttribute("partiallinktext")){
-            console.log("driver.find_element_by_partial_link_text("+clickedElement.getAttribute("partiallinktext")+").click()");
+            console.log("Clicked Element Has ----- partial text--(4th criterion)----- attribute");
+            console.log(clickedElement)
             clickedElementsArray.push(`
             driver.find_element_by_partial_link_text("${clickedElement.getAttribute("partiallinktext")}").click()
             `);
@@ -78,7 +87,8 @@ function clickListener(e) {
         }
         // 5. track element by TAG NAME
         else if(clickedElement.hasAttribute("name")){
-            console.log("driver.find_element_by_name("+clickedElement.getAttribute("name")+").click()");
+            console.log("Clicked Element Has ----- --(2nd criterion)----- attribute");
+            console.log(clickedElement)
             clickedElementsArray.push(`
             driver.find_element_by_name("${clickedElement.getAttribute("name")}").click()
             `);
@@ -86,6 +96,7 @@ function clickListener(e) {
         // 6. track element by CLASS NAME
         else if(clickedElement.hasAttribute("name")){
             console.log("driver.find_element_by_name("+clickedElement.getAttribute("name")+").click()");
+            console.log(clickedElement)
             clickedElementsArray.push(`
             driver.find_element_by_name("${clickedElement.getAttribute("name")}").click()
             `);
@@ -93,6 +104,7 @@ function clickListener(e) {
         // 7. track element by XPATH
         else if(clickedElement.hasAttribute("name")){
             console.log("driver.find_element_by_name("+clickedElement.getAttribute("name")+").click()");
+            console.log(clickedElement)
             clickedElementsArray.push(`
             driver.find_element_by_name("${clickedElement.getAttribute("name")}").click()
             `);

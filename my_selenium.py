@@ -7,6 +7,7 @@ driver.get("https://www.google.com")
 print(driver.title)
 time.sleep(5)
 search= driver.find_element_by_tag_name("input")
+searchBy= driver.find_element
 print(search)
 search.send_keys("Life Quotes Images")
 search.send_keys(Keys.RETURN)
