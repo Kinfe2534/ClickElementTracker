@@ -84,79 +84,111 @@ function clickListener(e) {
             
         }
         // 3. track element by LINK TEXT
-        else  if(clickedElement.hasAttribute("href")){
+        else  if(clickedElement.hasAttribute("href") && (function(){
+                    // find the clicked element by inner html
+                    var href_inner_html=clickedElement.innerHTML;
+                   
+                    // get all elements with inner html similar to the above.. not possible with css selector but with jquery
+                    var href_list=$(`a:contains("${href_inner_html}")`);
+                  // check how many there are and return boolean for the previous if clouse
+                    if(href_list.length==1){                        
+                        return true;
+                    }
+                    else {return false;}
+
+        })()){
             // log the criterion
             console.log("Clicked Element Has ----- href--(3rd criterion)----- attribute");
             // log the clicked element
             console.log(clickedElement);
-            // find the clicked element by inner html
+            // log the inner text
             var href_inner_html=clickedElement.innerHTML;
             console.log(href_inner_html);
-            // get all elements with inner html similar to the above.. not possible with css selector but with jquery
+            // lot the lenght of the inner html list
             var href_list=$(`a:contains("${href_inner_html}")`);
             console.log(href_list.length);
             // update the clicked elemets array
-           break_me: if(href_list.length!=1){
-                // if there are more than 1 anchor elements with the same inner Html , stop and continue to the next condition
-                console.log("Clicked element can not be uniquely identified by link text");
-                continue;
-           
-            }
-            else{ clickedElementsArray.push(`
+            
+            clickedElementsArray.push(`
             #found by LINK TEXT
-            driver.find_element_by_link_text("${clickedElement.getAttribute("href")}").click()
-            `);}
+            driver.find_element_by_link_text("${clickedElement.innerHTML}").click()
+            `);
 
         }
         // 4. track element by PARTIAL LINK TEXT        
-        else  if(clickedElement.hasAttribute("partiallinktext")){
-            console.log("Clicked Element Has ----- partial text--(4th criterion)----- attribute");
-            console.log(clickedElement)
-            clickedElementsArray.push(`
-            driver.find_element_by_partial_link_text("${clickedElement.getAttribute("partiallinktext")}").click()
-            `);
+        else  if(false){
+            // can not locate with partial link text automatically because it need copy and pasting the partial link text
 
         }
-        // 5. track element by TAG NAME
-        else if(clickedElement.hasAttribute("name")){
-            console.log("Clicked Element Has ----- --(2nd criterion)----- attribute");
+        // 5. track element by CLASS ATTRIBUTE
+        else if(clickedElement.hasAttribute("class")){
+            // log the criterion
+            console.log("Clicked Element Has ----- CLASS--(5th criterion)----- attribute");
+            // log the clicked element
+            console.log(clickedElement);
+            // get all elements with class attribute and this class value
+            var class_tags=document.querySelectorAll(`${clickedElement.tagName}.${clickedElement.getAttribute("class")}`);
+            console.log(class_tags);
+            console.log(class_tags.length);
+            // iterate to get the index of the specific elements
+            for(let i=0;i<class_tags.length;i++){
+                if(class_tags[i]==clickedElement){
+                    console.log(`the index of clicked element is ${i}`);
+
+                    // update the clicked element array with 
+            clickedElementsArray.push(`
+            #found by CLASS
+            list=driver.find_elements_by_css_selector("css=${clickedElement.tagName}.${clickedElement.getAttribute("class")}")
+            list[${i}].click()
+            `);
+
+                }
+            }
+            
+        }
+        // 6. track element by TAG NAME
+        else if((function(){
+            
+            // get all elements with the tag clicked
+            var tags=document.getElementsByTagName(`${clickedElement.tagName}`);
+            //check the number of elements with the specified tag name
+            if(tags.length==1){return true}
+            else {return false;}
+        })()){
+            // log the criterion
+            console.log("Clicked Element Has ----- TAG NAME-----");
+            // log the clicked element
             console.log(clickedElement)
             clickedElementsArray.push(`
-            driver.find_element_by_name("${clickedElement.getAttribute("name")}").click()
+            # found by TAG NAME
+            driver.find_element_by_tag_name("${clickedElement.tagName}").click()
             `);
         }
-        // 6. track element by CLASS NAME
-        else if(clickedElement.hasAttribute("name")){
-            console.log("driver.find_element_by_name("+clickedElement.getAttribute("name")+").click()");
-            console.log(clickedElement)
-            clickedElementsArray.push(`
-            driver.find_element_by_name("${clickedElement.getAttribute("name")}").click()
-            `);
-        }      
         // 7. track element by XPATH
-        else if(clickedElement.hasAttribute("name")){
-            console.log("driver.find_element_by_name("+clickedElement.getAttribute("name")+").click()");
-            console.log(clickedElement)
-            clickedElementsArray.push(`
-            driver.find_element_by_name("${clickedElement.getAttribute("name")}").click()
-            `);
+        else if(false){
+            // can not be automtically located because it needs manulal copy pasting the xpath from DOM
         }
         // FINALLY IF ELEMENT CAN NOT BE UNIQUELY TRACKED
-        else{console.log("driver.find_element_by_unknown("+"ID_CLASS_SOME_OTHER_ATTRIBUTE"+").click()")}
+        else{console.log("CAN NOT BE LOCATED BY --ID--NAME--HREF--LINK TEXT--PARTIAL LINK TEXT--CLASS--TAG NAME--")}
     
 ////////////////////////////////////
 //here add logic to add the click array items to clicked elements store
 
 }
 function keypressListener(e){
-    var pressedKey = (window.event) ? window.event.srcElement :  e.target;
-    console.log(e.keyCode);
-    console.log(e.which);
-    console.log(e.key);
-    if(e.key="ENTER"){clickedElementsArray.push(`
-    driver.find_element_by_id("${clickedElement.getAttribute("id")}").click()
-    `);}
-    else{}
+        // clickListener(e);
+            var pressedKey = (window.event) ? window.event.srcElement :  e.target;
+            console.log(e.keyCode);
+            console.log(e.which);
+            console.log(e.key);
+            if(e.which==13){clickedElementsArray.push(`
+            # attach the element before sending key...variable used is "clickedInputElement"
+            clickedInputElement.send_keys(Keys.RETURN)
+            `);}
+            else{clickedElementsArray.push(`
+            # attach the element before sending key...variable used is "clickedInputElement"
+            clickedInputElement.send_keys(Keys.${e.key})
+            `);}
 
 }
 //////////////////////////////////////////////////////////

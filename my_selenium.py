@@ -8,6 +8,7 @@ print(driver.title)
 time.sleep(5)
 search= driver.find_element_by_tag_name("input")
 searchBy= driver.find_element_by_link_text("")
+searchByTagName=driver.find
 list=driver.find_elements_by_css_selector(css="DIV[name =nameOfDivElement]")
 indexed_list=list[2].click()
 print(search)
